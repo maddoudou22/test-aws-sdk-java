@@ -272,12 +272,12 @@
             <plugin>
               <groupId>org.owasp</groupId>
               <artifactId>dependency-check-maven</artifactId>
-              <version>3.3.2</version>
-	      <!--
+              <!-- <version>3.3.2</version> -->
+			  <version>5.0.0-M3</version>
               <configuration>
-                  <failBuildOnCVSS>9</failBuildOnCVSS>
-	      </configuration>
-              -->
+			      <format>JSON</format>
+                  <!-- <failBuildOnCVSS>8</failBuildOnCVSS>  -->
+              </configuration>
               <executions>
                   <execution>
                       <goals>
