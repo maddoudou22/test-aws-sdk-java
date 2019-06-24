@@ -15,7 +15,7 @@ pipeline {
 		applicationName = 'aws-java-sdk-pom' // Same as artifactId in pom.xml
 		AWS_REGION = "eu-west-1"
 		AWS_ACCOUNT_ID = "962109799108"
-		SONAR_ENDPOINT = "http://54.154.55.6:9000"
+		SONAR_ENDPOINT = "http://52.17.176.19:9000"
 		//EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/home/ubuntu/.m2"
 		EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/var/lib/jenkins"
 		S3_BUCKET_MAVEN_DEPENDENCIES = "s3://jenkinsspotfleetmavencache/repo-aws-sdk-java/.m2/"
