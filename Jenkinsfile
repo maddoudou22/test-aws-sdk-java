@@ -69,8 +69,7 @@ pipeline {
             steps {
                 echo 'Check OWASP dependencies ...'
 				//sh 'mvn dependency-check:purge'
-				//sh 'mvn dependency-check:check'
-				sh 'mvn org.owasp:dependency-check-maven:aggregate --inherited:false'
+				sh 'mvn dependency-check:check'
             }
         }
 		

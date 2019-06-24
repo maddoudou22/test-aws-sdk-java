@@ -274,6 +274,14 @@
               <artifactId>dependency-check-maven</artifactId>
               <!-- <version>3.3.2</version> -->
 			  <version>5.0.0-M3</version>
+			  <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
               <configuration>
 			      <format>JSON</format>
                   <!-- <failBuildOnCVSS>8</failBuildOnCVSS>  -->
