@@ -273,19 +273,18 @@
               <groupId>org.owasp</groupId>
               <artifactId>dependency-check-maven</artifactId>
               <!-- <version>3.3.2</version> -->
-			  <version>4.0.2</version>
-			  <!-- <version>5.0.0-M3</version> -->
+			  <version>5.0.0-M3</version>
 			  <inherited>false</inherited>
               <configuration>
 			      <format>JSON</format>
-				  <!-- <aggregate>true</aggregate> -->
+				  <aggregate>true</aggregate>
                   <!-- <failBuildOnCVSS>8</failBuildOnCVSS> -->
               </configuration>
               <executions>
                   <execution>
                       <goals>
-                          <!-- <goal>aggregate</goal> -->
-						  <goal>check</goal>
+                          <goal>aggregate</goal> -->
+						  <!-- <goal>check</goal> -->
                       </goals>
                   </execution>
               </executions>

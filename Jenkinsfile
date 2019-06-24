@@ -40,7 +40,7 @@ pipeline {
 				sh './build-docker.sh $dockerRepo $DOCKER_CACHE_IMAGE_VERSION dockerfile_basis $AWS_REGION $AWS_ACCOUNT_ID'
             }
         }
-
+*/
         stage('Build') {
             steps {
                 echo 'Building ...'
@@ -56,7 +56,7 @@ pipeline {
 				sh 'mvn -T 1C test'
             }
         }
-*/
+
 /*
 		stage('Publish snapshot') {
             steps {
