@@ -6,12 +6,13 @@ pipeline {
 			//label 'slavespot'
         }
     }
+	options { timestamps () } // Avoir un timestamp dans les logs
 	
 	environment {
 		package_version = readMavenPom().getVersion()
 		dockerRegistry = "962109799108.dkr.ecr.eu-west-1.amazonaws.com"
 		DOCKER_CACHE_IMAGE_VERSION = "latest"
-		dockerRepo = "repo-aws-sdk-java"
+		dockerRepo = "testawssdkjava"
 		applicationName = 'aws-java-sdk-pom' // Same as artifactId in pom.xml
 		AWS_REGION = "eu-west-1"
 		AWS_ACCOUNT_ID = "962109799108"
@@ -69,8 +70,8 @@ pipeline {
             steps {
                 echo 'Check OWASP dependencies ...'
 				//sh 'mvn dependency-check:purge'
-				//sh 'mvn dependency-check:check'
-				sh 'mvn dependency-check:aggregate'
+				//sh 'mvn dependency-check:aggregate'
+				sh 'mvn dependency-check:check'
             }
         }
 

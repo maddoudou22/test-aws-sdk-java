@@ -277,14 +277,14 @@
 			  <inherited>false</inherited>
               <configuration>
 			      <format>JSON</format>
-				  <aggregate>true</aggregate>
+				  <!-- <aggregate>true</aggregate>  -->
                   <!-- <failBuildOnCVSS>8</failBuildOnCVSS> -->
               </configuration>
               <executions>
                   <execution>
                       <goals>
-                          <goal>aggregate</goal>
-						  <!-- <goal>check</goal> -->
+                          <goal>check</goal>
+						  <!-- <goal>aggregate</goal> -->
                       </goals>
                   </execution>
               </executions>
