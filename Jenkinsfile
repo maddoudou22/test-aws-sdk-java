@@ -13,7 +13,8 @@ pipeline {
 		dockerRegistry = "962109799108.dkr.ecr.eu-west-1.amazonaws.com"
 		DOCKER_CACHE_IMAGE_VERSION = "latest"
 		dockerRepo = "testawssdkjava"
-		applicationName = 'aws-java-sdk-pom' // Same as artifactId in pom.xml
+		applicationName = 'awsjavasdkpom' // Same as artifactId in pom.xml
+		//applicationName = 'aws-java-sdk-pom' // Same as artifactId in pom.xml
 		AWS_REGION = "eu-west-1"
 		AWS_ACCOUNT_ID = "962109799108"
 		SONAR_ENDPOINT = "http://54.154.201.141:9000"
