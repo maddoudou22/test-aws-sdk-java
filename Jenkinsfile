@@ -61,14 +61,14 @@ pipeline {
 				sh 'mvn -T 1C test'
             }
         }
-
+*/
 		stage('Publish snapshot') {
             steps {
                 echo 'Publising into the snapshot repo ...'
 				sh 'mvn jar:jar deploy:deploy'
             }
         }
-		
+/*		
 		stage('OWASP - Dependencies check') {
             steps {
                 echo 'Check OWASP dependencies ...'
@@ -77,7 +77,7 @@ pipeline {
 				sh 'mvn dependency-check:check'
             }
         }
-*/
+
 /*		
 		stage('Sonar - Code Quality') {
             steps {
