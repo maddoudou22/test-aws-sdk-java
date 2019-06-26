@@ -213,18 +213,7 @@
     <developerConnection>scm:git:git@github.com:aws/aws-sdk-java.git</developerConnection>
     <url>https://github.com/aws/aws-sdk-java</url>
   </scm>
-  
-    <!-- Nexus repositories configuration -->
-	<distributionManagement>
-		<snapshotRepository>
-			<id>testawssdkjava-snapshot</id>
-			<name>test-aws-sdk-java snapshot</name>
-			<url>http://localhost:8081/nexus/content/repositories/testawssdkjava-snapshot</url>
-		</snapshotRepository>
-	</distributionManagement>
-  <!-- /Nexus repositories configuration -->
-  
-  
+    
   <properties>
       <awsjavasdk.version>${project.version}</awsjavasdk.version>
       <!-- The SDK requires Jackson 2.6 to support Java 6 customers. Feel free to override in your own application -->

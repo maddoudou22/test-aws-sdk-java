@@ -54,21 +54,21 @@ pipeline {
             }
         }
 	
-/*	
+	
 		stage('Unit test') {
             steps {
                 echo 'Unit testing ...'
 				sh 'mvn -T 1C test'
             }
         }
-*/
+/*
 		stage('Publish snapshot') {
             steps {
                 echo 'Publising into the snapshot repo ...'
 				sh 'mvn jar:jar deploy:deploy'
             }
         }
-/*		
+		
 		stage('OWASP - Dependencies check') {
             steps {
                 echo 'Check OWASP dependencies ...'
@@ -100,9 +100,7 @@ pipeline {
 //				sh 'sed -i.bak \"s#BASIS_IMAGE#$dockerRegistry/$dockerRepo:$DOCKER_CACHE_IMAGE_VERSION#g\" dockerfile'
                 echo 'Building Docker image ...'
 				sh '$(aws ecr get-login --no-include-email --region $AWS_REGION)'
-				sh 'echo \"Generation d\'un fichier de la taille du fat jar final si il existait ... \"'
-				sh 'dd if=/dev/zero of=$fake_jar count=250 bs=1048576'
-				sh 'docker build --build-arg GENERATED_FILE=${fake_jar} --build-arg PACKAGE_VERSION=${package_version} --build-arg APPLICATION_NAME=${applicationName} -t ${dockerRegistry}/${dockerRepo}:${package_version} .'
+				sh 'docker build --build-arg --build-arg PACKAGE_VERSION=${package_version} --build-arg APPLICATION_NAME=${applicationName} -t ${dockerRegistry}/${dockerRepo}:${package_version} .'
 				//echo 'Removing dangling Docker image from the local registry ...'
 				//sh "docker rmi $(docker images --filter "dangling=true" -q --no-trunc) 2>/dev/null"
 				echo 'Publishing Docker image into the private registry ...'
