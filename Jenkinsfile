@@ -15,7 +15,7 @@ pipeline {
 		dockerRepo = "testawssdkjava"
 		applicationName = 'awsjavasdkpom' // Same as artifactId in pom.xml
 		//applicationName = 'aws-java-sdk-pom' // Same as artifactId in pom.xml
-		package_shadded = '/var/lib/jenkins/workspace/test-aws-sdk-java/aws-java-sdk-bundle/target/aws-java-sdk-bundle-1.11.499-shaded.jar'
+		package_shadded = 'aws-java-sdk-bundle-1.11.499-shaded.jar' // '/var/lib/jenkins/workspace/test-aws-sdk-java/aws-java-sdk-bundle/target/aws-java-sdk-bundle-1.11.499-shaded.jar'
 		AWS_REGION = "eu-west-1"
 		AWS_ACCOUNT_ID = "962109799108"
 		SONAR_ENDPOINT = "http://54.154.201.141:9000"
@@ -99,6 +99,10 @@ pipeline {
 //				sh 'sed -i.bak \"s#BASIS_IMAGE#$dockerRegistry/$dockerRepo:$DOCKER_CACHE_IMAGE_VERSION#g\" dockerfile'
                 echo 'Building Docker image ...'
 				sh '$(aws ecr get-login --no-include-email --region $AWS_REGION)'
+				sh 'echo \"pwd : \"'
+				sh 'pwd'
+				sh 'echo \"ls : \"'
+				sh 'ls'
 				sh 'docker build --build-arg PACKAGE_SHADDED=${package_shadded} --build-arg PACKAGE_VERSION=${package_version} --build-arg APPLICATION_NAME=${applicationName} -t ${dockerRegistry}/${dockerRepo}:${package_version} .'
 				//echo 'Removing dangling Docker image from the local registry ...'
 				//sh "docker rmi $(docker images --filter "dangling=true" -q --no-trunc) 2>/dev/null"
