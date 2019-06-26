@@ -6,6 +6,7 @@ pipeline {
 			label 'slavespot'
         }
     }
+	options { timestamps () } // Avoir un timestamp dans les logs
 	
 	environment {
 		package_version = readMavenPom().getVersion()
@@ -51,14 +52,14 @@ pipeline {
 				sh 'mvn -T 1C -Dmaven.test.skip=true clean package'
             }
         }
-		
+/*		
 		stage('Unit test') {
             steps {
                 echo 'Unit testing ...'
 				sh 'mvn -T 1C test'
             }
         }
-/*
+
 		stage('Publish snapshot') {
             steps {
                 echo 'Publising into the snapshot repo ...'
