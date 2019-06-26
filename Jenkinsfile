@@ -78,7 +78,6 @@ pipeline {
             }
         }
 
-/*		
 		stage('Sonar - Code Quality') {
             steps {
                 echo 'Check Code Quality ...'
