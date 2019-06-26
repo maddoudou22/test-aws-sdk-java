@@ -15,7 +15,7 @@ pipeline {
 		dockerRepo = "testawssdkjava"
 		applicationName = 'awsjavasdkpom' // Same as artifactId in pom.xml
 		//applicationName = 'aws-java-sdk-pom' // Same as artifactId in pom.xml
-		package_shadded = 'aws-java-sdk-bundle-1.11.499-shaded.jar' // '/var/lib/jenkins/workspace/test-aws-sdk-java/aws-java-sdk-bundle/target/aws-java-sdk-bundle-1.11.499-shaded.jar'
+		package_shadded = 'original-aws-java-sdk-bundle-1.11.499.jar' // '/var/lib/jenkins/workspace/test-aws-sdk-java/aws-java-sdk-bundle/target/aws-java-sdk-bundle-1.11.499-shaded.jar'
 		AWS_REGION = "eu-west-1"
 		AWS_ACCOUNT_ID = "962109799108"
 		SONAR_ENDPOINT = "http://54.154.201.141:9000"
