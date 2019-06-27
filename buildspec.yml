@@ -5,6 +5,9 @@ phases:
     commands:
       - echo Pre-Build started on `date`
       
+      - LANG=en_US.UTF-8
+      - export LANG
+      - env
       - env | grep LANG
       
       - echo "Configuration du fuseau horaire ..."
