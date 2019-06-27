@@ -46,11 +46,11 @@ phases:
 #      - mvn dependency-check:check
 #      - mvn org.owasp:dependency-check-maven:5.0.0-M3:check -Dmaven.javadoc.failOnError=false
       - echo "Attente du demarrage de Sonar ..."
-      - timeout 60 sh -c 'until ps aux | grep [o]rg.sonar.ce.app.CeServer; do sleep 1; done'
+#      - timeout 60 sh -c 'until ps aux | grep [o]rg.sonar.ce.app.CeServer; do sleep 1; done'
       - echo "Demarrage des tests Sonar ..."
 #      - mvn sonar:sonar
 #      - cp target/$APPLICATION_NAME-$PACKAGE_VERSION.jar .
-      - dd if=/dev/zero of=fake.jar count=250 bs=1048576
+ #     - dd if=/dev/zero of=fake.jar count=250 bs=1048576
       
   post_build:
     commands:
@@ -60,12 +60,12 @@ phases:
       
       - echo "Verification que Sonar a bien compile les tests ..."
       # Installation neuve de Sonar, donc une seule task executee
-      - timeout 30 sh -c 'until curl -u admin:admin http://localhost:9000/api/ce/activity | grep "SUCCESS"; do sleep 1; done'
+#      - timeout 30 sh -c 'until curl -u admin:admin http://localhost:9000/api/ce/activity | grep "SUCCESS"; do sleep 1; done'
       
       - echo "Recuperation de la date afin d'en faire un timestamp pour les resultats ..."
-      - TIMESTAMP_FILES=$(date +\"%Y%m%d%H%M%S\" | sed -e 's/\"//g')
-      - TIMESTAMP_DAY=$(date +"%A %d %B %Y")
-      - TIMESTAMP_TIME=$(date +"%T")
+#      - TIMESTAMP_FILES=$(date +\"%Y%m%d%H%M%S\" | sed -e 's/\"//g')
+#      - TIMESTAMP_DAY=$(date +"%A %d %B %Y")
+#      - TIMESTAMP_TIME=$(date +"%T")
             
       - echo "Recuperation du resultat des tests de vulnérabilités de Sonar via l'API de Sonar ..."
 #      - curl "http://127.0.0.1:9000/api/issues/search?facets=severities&componentKeys=$APPLICATION_GROUPID:$APPLICATION_NAME&pageSize=500" > ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
@@ -73,27 +73,27 @@ phases:
 #      - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
             
       - echo "Recuperation des tests unitaires via l'API Sonar ..."
-      - curl "http://127.0.0.1:9000/api/measures/component?componentKey=$APPLICATION_GROUPID:$APPLICATION_NAME&metricKeys=ncloc,line_coverage,new_line_coverage" > ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json
-      - echo "Modification du fichier de resultat des tests de Sonar pour y intégrer le timestamp pour le classement chronologique des résultats dans Athena ..."
-      - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json
+#      - curl "http://127.0.0.1:9000/api/measures/component?componentKey=$APPLICATION_GROUPID:$APPLICATION_NAME&metricKeys=ncloc,line_coverage,new_line_coverage" > ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json
+#      - echo "Modification du fichier de resultat des tests de Sonar pour y intégrer le timestamp pour le classement chronologique des résultats dans Athena ..."
+#      - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json
       
       - echo "Recuperation des tests de dépendance OWASP dans le répertoire 'target' (et suppression des retours à la ligne car Athena ne supporte que les JSON 'one-line') ..."
-      - tr -s "\n" ' ' < target/dependency-check-report.json > target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json
-      - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json
+#      - tr -s "\n" ' ' < target/dependency-check-report.json > target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json
+#      - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json
       
       - echo "Verification de l'existence des repertoires de test dans le bucket S3 du projet, sinon creation ..."
 #      - if ! $(aws s3 ls s3://${S3_SONARTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_SONARTESTRESULTS_LOCATION}/ ;fi
-      - if ! $(aws s3 ls s3://${S3_UNITTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_UNITTESTRESULTS_LOCATION}/ ;fi
-      - if ! $(aws s3 ls s3://${S3_OWASPTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_OWASPTESTRESULTS_LOCATION}/ ;fi
+#      - if ! $(aws s3 ls s3://${S3_UNITTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_UNITTESTRESULTS_LOCATION}/ ;fi
+#      - if ! $(aws s3 ls s3://${S3_OWASPTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_OWASPTESTRESULTS_LOCATION}/ ;fi
       
 #      - echo "Export des JSON de resultats Sonar ..."
 #      - aws s3 cp ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_SONARTESTRESULTS_LOCATION}/
       
       - echo "Export des JSON de resultats de tests unitaires dans le bucket S3 ..."
-      - aws s3 cp ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_UNITTESTRESULTS_LOCATION}/
+#      - aws s3 cp ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_UNITTESTRESULTS_LOCATION}/
       
       - echo "Export des tests de dépendance dans le bucket S3 ..."
-      - aws s3 cp target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_OWASPTESTRESULTS_LOCATION}/
+#      - aws s3 cp target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_OWASPTESTRESULTS_LOCATION}/
       
       - echo "PHASE DE BUILD DE L'IMAGE DOCKER"
 #      - echo "Verification de la presence de l'image Docker dans la registry locale (elle a du avoir le temps de se reconstruire ou se telecharger)"

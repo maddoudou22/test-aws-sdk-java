@@ -52,21 +52,21 @@ pipeline {
 				sh 'mvn -T 1C -Dmaven.test.skip=true clean package'
             }
         }
-/*		
+		
 		stage('Unit test') {
             steps {
                 echo 'Unit testing ...'
 				sh 'mvn -T 1C test'
             }
         }
-
+/*
 		stage('Publish snapshot') {
             steps {
                 echo 'Publising into the snapshot repo ...'
 				sh 'mvn jar:jar deploy:deploy'
             }
         }
-*/		
+		
 		stage('OWASP - Dependencies check') {
             steps {
                 echo 'Check OWASP dependencies ...'
@@ -75,7 +75,7 @@ pipeline {
 				sh 'mvn org.owasp:dependency-check-maven:5.0.0-M3:check -Dmaven.javadoc.failOnError=false'
             }
         }
-/*		
+		
 		stage('Sonar - Code Quality') {
             steps {
                 echo 'Check Code Quality ...'
