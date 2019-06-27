@@ -41,7 +41,7 @@ phases:
       - echo "Compilation du code source ..."
       - mvn -T 1C -Dmaven.test.skip=true clean package
       - echo "Demarrage des tests unitaires ..."
-      - mvn -T 1C -Dmaven.test.failure.ignore=true test
+#      - mvn -T 1C -Dmaven.test.failure.ignore=true test
       - echo "Demarrage des tests OWASP ..."
 #      - mvn dependency-check:check
 #      - mvn org.owasp:dependency-check-maven:5.0.0-M3:check -Dmaven.javadoc.failOnError=false
@@ -50,7 +50,7 @@ phases:
       - echo "Demarrage des tests Sonar ..."
 #      - mvn sonar:sonar
 #      - cp target/$APPLICATION_NAME-$PACKAGE_VERSION.jar .
- #     - dd if=/dev/zero of=fake.jar count=250 bs=1048576
+       - dd if=/dev/zero of=fake.jar count=250 bs=1048576
       
   post_build:
     commands:
@@ -110,4 +110,5 @@ cache:
     - '/root/.m2/**/*'
     
 artifacts:
-    files: ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
+    #files: ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
+    files: fake.jar
