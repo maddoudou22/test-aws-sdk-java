@@ -5,6 +5,8 @@ phases:
     commands:
       - echo Pre-Build started on `date`
       
+      - env | grep LANG
+      
       - echo "Configuration du fuseau horaire ..."
       - ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime
       - dpkg-reconfigure --frontend noninteractive tzdata
