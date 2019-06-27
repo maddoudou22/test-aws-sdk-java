@@ -279,6 +279,7 @@
               <configuration>
 			      <format>JSON</format>
 				  <failOnError>false</failOnError>
+				  <excludes>*cucumber-java-1.2.4.jar</excludes>
 				  <!-- <aggregate>true</aggregate>  -->
                   <!-- <failBuildOnCVSS>8</failBuildOnCVSS> -->
               </configuration>
