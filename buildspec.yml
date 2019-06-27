@@ -24,11 +24,11 @@ phases:
       - APPLICATION_NAME=$(grep -m 1 '<artifactId>' pom.xml | awk -F">" '{print $2}' | awk -F"<" '{print $1}')
       - PACKAGE_VERSION=$(grep -m 1 '<version>' pom.xml | awk -F">" '{print $2}' | awk -F"<" '{print $1}')
       
-      - echo "Recuperation de la precedente image de l application (base initiale) des maintenant pour gagner du temps dans la phase post-build. En arriere plan afin de paralleliser cette action et le demarrage de Sonar"
+#      - echo "Recuperation de la precedente image de l application (base initiale) des maintenant pour gagner du temps dans la phase post-build. En arriere plan afin de paralleliser cette action et le demarrage de Sonar"
       - $(aws ecr get-login --no-include-email --region $AWS_REGION)
-      - echo "Si l'image cache n'existe pas dans le repo ECR elle est reconstruire, sinon elle est telechargee"
-      - chmod +x build-docker.sh
-      - ./build-docker.sh $IMAGE_REPO_NAME $DOCKER_CACHE_IMAGE_VERSION dockerfile_basis $AWS_REGION $AWS_ACCOUNT_ID
+#      - echo "Si l'image cache n'existe pas dans le repo ECR elle est reconstruire, sinon elle est telechargee"
+#      - chmod +x build-docker.sh
+#      - ./build-docker.sh $IMAGE_REPO_NAME $DOCKER_CACHE_IMAGE_VERSION dockerfile_basis $AWS_REGION $AWS_ACCOUNT_ID
  
   build:
     commands:
@@ -43,8 +43,9 @@ phases:
       - echo "Attente du demarrage de Sonar ..."
       - timeout 60 sh -c 'until ps aux | grep [o]rg.sonar.ce.app.CeServer; do sleep 1; done'
       - echo "Demarrage des tests Sonar ..."
-      - mvn sonar:sonar
-      - cp target/$APPLICATION_NAME-$PACKAGE_VERSION.jar .
+#      - mvn sonar:sonar
+#      - cp target/$APPLICATION_NAME-$PACKAGE_VERSION.jar .
+      - dd if=/dev/zero of=fake.jar count=250 bs=1048576
       
   post_build:
     commands:
@@ -62,9 +63,9 @@ phases:
       - TIMESTAMP_TIME=$(date +"%T")
             
       - echo "Recuperation du resultat des tests de vulnérabilités de Sonar via l'API de Sonar ..."
-      - curl "http://127.0.0.1:9000/api/issues/search?facets=severities&componentKeys=$APPLICATION_GROUPID:$APPLICATION_NAME&pageSize=500" > ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
-      - echo "Modification du fichier de resultat des tests de Sonar pour y intégrer le timestamp pour le classement chronologique des résultats dans Athena, ainsi que la date et l'heure ..."
-      - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
+#      - curl "http://127.0.0.1:9000/api/issues/search?facets=severities&componentKeys=$APPLICATION_GROUPID:$APPLICATION_NAME&pageSize=500" > ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
+#      - echo "Modification du fichier de resultat des tests de Sonar pour y intégrer le timestamp pour le classement chronologique des résultats dans Athena, ainsi que la date et l'heure ..."
+#      - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json
             
       - echo "Recuperation des tests unitaires via l'API Sonar ..."
       - curl "http://127.0.0.1:9000/api/measures/component?componentKey=$APPLICATION_GROUPID:$APPLICATION_NAME&metricKeys=ncloc,line_coverage,new_line_coverage" > ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json
@@ -76,12 +77,12 @@ phases:
       - sed -i "0,/{/ s/{/{\"buildtimestamp\":${TIMESTAMP_FILES},/" target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json
       
       - echo "Verification de l'existence des repertoires de test dans le bucket S3 du projet, sinon creation ..."
-      - if ! $(aws s3 ls s3://${S3_SONARTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_SONARTESTRESULTS_LOCATION}/ ;fi
+#      - if ! $(aws s3 ls s3://${S3_SONARTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_SONARTESTRESULTS_LOCATION}/ ;fi
       - if ! $(aws s3 ls s3://${S3_UNITTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_UNITTESTRESULTS_LOCATION}/ ;fi
       - if ! $(aws s3 ls s3://${S3_OWASPTESTRESULTS_LOCATION});then aws s3api put-object --bucket ${S3_PROJECT_LOCATION} --key ${S3_OWASPTESTRESULTS_LOCATION}/ ;fi
       
-      - echo "Export des JSON de resultats Sonar ..."
-      - aws s3 cp ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_SONARTESTRESULTS_LOCATION}/
+#      - echo "Export des JSON de resultats Sonar ..."
+#      - aws s3 cp ${APPLICATION_NAME}-TestsResult-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_SONARTESTRESULTS_LOCATION}/
       
       - echo "Export des JSON de resultats de tests unitaires dans le bucket S3 ..."
       - aws s3 cp ${APPLICATION_NAME}-TestCoverage-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_UNITTESTRESULTS_LOCATION}/
@@ -90,10 +91,10 @@ phases:
       - aws s3 cp target/${APPLICATION_NAME}-dependency-check-report-${TIMESTAMP_FILES}.json s3://${S3_PROJECT_LOCATION}/${S3_OWASPTESTRESULTS_LOCATION}/
       
       - echo "PHASE DE BUILD DE L'IMAGE DOCKER"
-      - echo "Verification de la presence de l'image Docker dans la registry locale (elle a du avoir le temps de se reconstruire ou se telecharger)"
-      - timeout 60 sh -c 'until docker images | grep $IMAGE_REPO_NAME | grep $DOCKER_CACHE_IMAGE_VERSION; do sleep 1; done'
-      - echo "Modification du dockerfile pour y indiquer l'image de base a utiliser pour le build afin de beneficier des layer mis en cache localement"
-      - sed -i.bak "s/BASIS_IMAGE/$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com\/$IMAGE_REPO_NAME:$DOCKER_CACHE_IMAGE_VERSION/g" dockerfile
+#      - echo "Verification de la presence de l'image Docker dans la registry locale (elle a du avoir le temps de se reconstruire ou se telecharger)"
+#      - timeout 60 sh -c 'until docker images | grep $IMAGE_REPO_NAME | grep $DOCKER_CACHE_IMAGE_VERSION; do sleep 1; done'
+#      - echo "Modification du dockerfile pour y indiquer l'image de base a utiliser pour le build afin de beneficier des layer mis en cache localement"
+#      - sed -i.bak "s/BASIS_IMAGE/$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com\/$IMAGE_REPO_NAME:$DOCKER_CACHE_IMAGE_VERSION/g" dockerfile
       - echo "Build de l'image Docker de l'application a partir de l'image de base pour accelerer le processus - Les 3/4 des donnees sont deja en cache"
       - docker build --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$DOCKER_CACHE_IMAGE_VERSION --build-arg PACKAGE_VERSION=$PACKAGE_VERSION --build-arg APPLICATION_NAME=$APPLICATION_NAME -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$PACKAGE_VERSION .
       - echo "Pushing the Docker image..."

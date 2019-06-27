@@ -9,17 +9,17 @@ Parameters:
   ProjectName:
     Description: Nom du projet utilise pour tagger les ressources creees
     Type: String
-    Default: "serverlessFullToolchainJava"
+    Default: "testawssdkjava"
     
   ProjectNameShort:
     Description: Nom court du projet utilise pour nommer les requetes Athena qui ne supportent que 30 caracteres
     Type: String
-    Default: "servFullToolchn"
+    Default: "testawssdkjava"
     
   ApplicationImageRepository:
     Description: Nom de l'image Docker generee durant l'etape de Post-Build de CodeBuild
     Type: String
-    Default: "serverlessfulltoolchainjava"
+    Default: "testawssdkjava"
     
   DockerCacheImageVersion:
     Description: Version de l'image Docker utilisee comme base initiale pour la construction de l'image Docker de l'application.
@@ -29,7 +29,7 @@ Parameters:
   S3rootBucket:
     Description: "Bucket du projet contenant les artefacts de l'application pour leur integration et leur deploiement (codes source et imagedefinitions des conteneurs requis)."
     Type: String
-    Default: "serverlessfulltoolchainjava"
+    Default: "testawssdkjava"
     AllowedPattern: '[a-zA-Z0-9]+'
 
   S3SonarTestResults:
@@ -68,7 +68,7 @@ Parameters:
   GitHubRepository:
     Description: Nom du projet declare dans GitHub.
     Type: String
-    Default: "serverlessFulloolchainJava"
+    Default: "test-aws-sdk-java"
     
   GitHubBranch:
     Description: Branch utilisee dans GitHub.
