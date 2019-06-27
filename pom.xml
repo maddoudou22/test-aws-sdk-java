@@ -280,6 +280,13 @@
 			      <format>JSON</format>
 				  <failOnError>false</failOnError>
 				  <excludes>*cucumber-java-1.2.4.jar</excludes>
+				  <excludes>cucumber/api/java/ar/*</excludes>
+				  <excludes>/root/.m2/repository/info/cukes/cucumber-java/1.2.4/cucumber-java-1.2.4.jar</excludes>
+				  <excludes>*/info/cukes/cucumber-java/1.2.4/cucumber-java-1.2.4.jar</excludes>
+				  <excludes>*/cukes/cucumber-java/1.2.4/cucumber-java-1.2.4.jar</excludes>
+				  <excludes>*/cucumber-java/1.2.4/cucumber-java-1.2.4.jar</excludes>
+				  <excludes>*/1.2.4/cucumber-java-1.2.4.jar</excludes>
+				  <excludes>*/cucumber-java-1.2.4.jar</excludes>
 				  <!-- <aggregate>true</aggregate>  -->
                   <!-- <failBuildOnCVSS>8</failBuildOnCVSS> -->
               </configuration>
