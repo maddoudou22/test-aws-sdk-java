@@ -275,10 +275,10 @@
               <artifactId>dependency-check-maven</artifactId>
               <!-- <version>3.3.2</version> -->
 			  <version>5.0.0-M3</version>
-			  <failOnError>false</failOnError>
 			  <inherited>false</inherited>
               <configuration>
 			      <format>JSON</format>
+				  <failOnError>false</failOnError>
 				  <!-- <aggregate>true</aggregate>  -->
                   <!-- <failBuildOnCVSS>8</failBuildOnCVSS> -->
               </configuration>
