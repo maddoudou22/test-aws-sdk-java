@@ -37,9 +37,10 @@ phases:
       - echo "Compilation du code source ..."
       - mvn -T 1C -Dmaven.test.skip=true clean package
       - echo "Demarrage des tests unitaires ..."
-      - mvn -T 1C -Dmaven.test.failure.ignore=true test
+#      - mvn -T 1C -Dmaven.test.failure.ignore=true test
       - echo "Demarrage des tests OWASP ..."
-      - mvn dependency-check:check
+#      - mvn dependency-check:check
+      - mvn org.owasp:dependency-check-maven:5.0.0-M3:check
       - echo "Attente du demarrage de Sonar ..."
       - timeout 60 sh -c 'until ps aux | grep [o]rg.sonar.ce.app.CeServer; do sleep 1; done'
       - echo "Demarrage des tests Sonar ..."
