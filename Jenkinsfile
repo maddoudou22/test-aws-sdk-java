@@ -71,7 +71,8 @@ pipeline {
             steps {
                 echo 'Check OWASP dependencies ...'
 				//sh 'mvn dependency-check:purge'
-				sh 'mvn dependency-check:check'
+				//sh 'mvn dependency-check:check'
+				sh 'mvn org.owasp:dependency-check-maven:5.0.0-M3:check -Dmaven.javadoc.failOnError=false'
             }
         }
 		
