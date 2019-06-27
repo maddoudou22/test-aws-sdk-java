@@ -50,7 +50,7 @@ phases:
       - echo "Demarrage des tests Sonar ..."
 #      - mvn sonar:sonar
 #      - cp target/$APPLICATION_NAME-$PACKAGE_VERSION.jar .
-       - dd if=/dev/zero of=fake.jar count=250 bs=1048576
+      - dd if=/dev/zero of=fake.jar count=250 bs=1048576
       
   post_build:
     commands:
