@@ -35,7 +35,7 @@ phases:
       - echo Build started on `date`
 #      - export MAVEN_OPTS="-Dmaven.repo.local=/opt/sonar/sonarqube-7.3/cache" # Trop lent avec EFS : a ne pas utiliser
       - echo "Compilation du code source ..."
-      - mvn -T 1C -Dmaven.test.skip=true clean package
+      - mvn -T 1C -Dmaven.test.skip=true -DtestFailureIgnore=true clean package
       - echo "Demarrage des tests unitaires ..."
       - mvn -T 1C test
       - echo "Demarrage des tests OWASP ..."
