@@ -37,7 +37,7 @@ phases:
       - echo "Compilation du code source ..."
       - mvn -T 1C -Dmaven.test.skip=true clean package
       - echo "Demarrage des tests unitaires ..."
-      - mvn -T 1C -DtestFailureIgnore=true test
+      - mvn -T 1C -Dmaven.test.failure.ignore=true test
       - echo "Demarrage des tests OWASP ..."
       - mvn dependency-check:check
       - echo "Attente du demarrage de Sonar ..."
