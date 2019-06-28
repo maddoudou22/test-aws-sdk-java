@@ -53,14 +53,15 @@ pipeline {
 				//sh 'mvn -T 1C -Dmaven.test.skip=true dependency:purge-local-repository clean package'
             }
         }
-	
+
+/*		
 		stage('Unit test') {
             steps {
                 echo 'Unit testing ...'
 				sh 'mvn -T 1C test'
             }
         }
-/*
+
 		stage('Publish snapshot') {
             steps {
                 echo 'Publising into the snapshot repo ...'
@@ -73,7 +74,7 @@ pipeline {
                 echo 'Check OWASP dependencies ...'
 				//sh 'mvn dependency-check:purge'
 				//sh 'mvn dependency-check:aggregate'
-				sh 'mvn dependency-check:check'
+				sh 'mvn org.owasp:dependency-check-maven:5.0.0-M3:check -Dmaven.javadoc.failOnError=false'
             }
         }
 /*
