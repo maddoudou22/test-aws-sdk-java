@@ -54,14 +54,14 @@ pipeline {
             }
         }
 
-/*		
+		
 		stage('Unit test') {
             steps {
                 echo 'Unit testing ...'
 				sh 'mvn -T 1C test'
             }
         }
-
+/*
 		stage('Publish snapshot') {
             steps {
                 echo 'Publising into the snapshot repo ...'
