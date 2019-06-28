@@ -68,7 +68,7 @@ pipeline {
 				sh 'mvn jar:jar deploy:deploy'
             }
         }
-*/		
+		
 		stage('OWASP - Dependencies check') {
             steps {
                 echo 'Check OWASP dependencies ...'
@@ -77,6 +77,7 @@ pipeline {
 				sh 'mvn org.owasp:dependency-check-maven:5.0.0-M3:check -Dmaven.javadoc.failOnError=false'
             }
         }
+*/
 /*
 		stage('Sonar - Code Quality') {
             steps {
