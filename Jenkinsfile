@@ -1,9 +1,9 @@
 pipeline {
-	agent { 
+    agent { 
         node {
             //label '!master'
-			//label 'master'
-			label 'slavespot'
+			label 'master'
+			//label 'slavespot'
         }
     }
 	options { timestamps () } // Avoir un timestamp dans les logs
@@ -20,13 +20,14 @@ pipeline {
 		AWS_REGION = "eu-west-1"
 		AWS_ACCOUNT_ID = "962109799108"
 		SONAR_ENDPOINT = "http://54.154.201.141:9000"
-		EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/home/ubuntu/.m2"
-		//EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/var/lib/jenkins"
+		//EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/home/ubuntu/.m2"
+		EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/var/lib/jenkins"
 		S3_BUCKET_MAVEN_DEPENDENCIES = "s3://jenkinsspotfleetmavencache/repo-aws-sdk-java/.m2/"
     }
 
-    stages {
 
+    stages {
+/*
 		stage('Download dependencies from S3') {
             steps {
 				echo 'Get the cached maven dependencies from an S3 bucket ...'
@@ -34,7 +35,7 @@ pipeline {
 				sh 'aws s3 sync $S3_BUCKET_MAVEN_DEPENDENCIES $EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY'
 			}
         }
-/*		
+		
 	    stage('Prepa baking') {
             steps {
                 echo 'Getting previous image ...'
@@ -48,11 +49,11 @@ pipeline {
             steps {
                 echo 'Building ...'
 				//sh 'mvn -T 10 -Dmaven.test.skip=true clean install'
-				//sh 'mvn -T 1C -Dmaven.test.skip=true dependency:purge-local-repository clean package'
 				sh 'mvn -T 1C -Dmaven.test.skip=true clean package'
+				//sh 'mvn -T 1C -Dmaven.test.skip=true dependency:purge-local-repository clean package'
             }
         }
-		
+	
 		stage('Unit test') {
             steps {
                 echo 'Unit testing ...'
@@ -66,16 +67,16 @@ pipeline {
 				sh 'mvn jar:jar deploy:deploy'
             }
         }
-		
+*/		
 		stage('OWASP - Dependencies check') {
             steps {
                 echo 'Check OWASP dependencies ...'
 				//sh 'mvn dependency-check:purge'
-				//sh 'mvn dependency-check:check'
-				sh 'mvn org.owasp:dependency-check-maven:5.0.0-M3:check -Dmaven.javadoc.failOnError=false'
+				//sh 'mvn dependency-check:aggregate'
+				sh 'mvn dependency-check:check'
             }
         }
-		
+/*
 		stage('Sonar - Code Quality') {
             steps {
                 echo 'Check Code Quality ...'
@@ -105,13 +106,14 @@ pipeline {
             }
         }
 
+/*		
 		stage('Dependencies sync') {
             steps {
 				echo 'Copying the maven dependencies to an S3 bucket ...'
 				sh 'aws s3 sync $EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY $S3_BUCKET_MAVEN_DEPENDENCIES'
 			}
         }
-
+*/
     }
 
 }
