@@ -235,7 +235,7 @@ Resources:
         Type: CODEPIPELINE
       Environment:
         Type: linuxContainer
-        ComputeType: BUILD_GENERAL1_MEDIUM
+        ComputeType: BUILD_GENERAL1_LARGE
         Image: "aws/codebuild/java:openjdk-8"
         PrivilegedMode: true # Obligatoire pour l'utilisation des commandes Docker
         EnvironmentVariables:
